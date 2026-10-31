@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "my-kit",
+  "name": "My kit",
+  "version": "0.1.0",
+  "description": "A tab listing the workspace's panes and what each is doing, and a skill telling agents about it.",
+  "author": "You",
+  "homepage": "https://github.com/hangar-ai/kit-template",
+  "icon": "icon.svg",
+  "hangar": ">=1.9.0",
+  "gallery": {
+    "permissionsSummary": "Shows a tab that reads the list of the workspace's panes. Runs nothing by itself and changes no file.",
+    "tags": ["example", "tab"]
+  },
+  "tabs": [
+    {
+      "id": "panes",
+      "title": "Panes",
+      "entry": "tabs/panes/index.html",
+      "icon": "icon.svg",
+      "permissions": ["panes.read"]
+    }
+  ]
+}

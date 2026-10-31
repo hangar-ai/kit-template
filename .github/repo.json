@@ -1,0 +1,6 @@
+{
+  "description": "The smallest honest kit for Hangar.AI: a tab on Hangar UI, a skill, tests and a capture bench.",
+  "homepage": "https://hangar.simnjs.fr",
+  "topics": ["hangar-kit", "hangar", "claude-code", "template"],
+  "isTemplate": true
+}
