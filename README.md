@@ -32,9 +32,9 @@ bench/                 the page in a sandboxed frame, as Hangar frames it, photo
    Add what you call to `test/fake-hangar.js`.
 4. **Drop what you do not need.** No skill? Delete `skills/` and `.claude-plugin/`: the kit is just a tab.
 
-Follow [the rules a kit follows](https://github.com/simnJS/hangar-ai/blob/main/docs/kit-ui.md#the-rules-a-kit-follows):
+Follow [the rules a kit follows](https://github.com/hangar-ai/hangar/blob/main/docs/kit-ui.md#the-rules-a-kit-follows):
 no colour of your own, a designed state for what is empty, loading, failing or denied, and a page that holds
-at 320 px. [The kit contract](https://github.com/simnJS/hangar-ai/blob/main/docs/kits.md) has everything else:
+at 320 px. [The kit contract](https://github.com/hangar-ai/hangar/blob/main/docs/kits.md) has everything else:
 hooks, MCP servers, commands, the data folder.
 
 ## Test it
