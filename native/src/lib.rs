@@ -10,9 +10,8 @@
 //! - **Calls are tasks**: `cx.call` goes out when `update` returns, and the answer
 //!   comes back later as a message of its own. Nothing here waits.
 //!
-//! The same tab as `tabs/panes/` (the page Hangar 1.x opens): it asks for
-//! `panes.list` under `panes.read`, reads again when `panes.changed`, and draws a
-//! row per pane, or one of four states: loading, empty, denied, failed.
+//! It asks for `panes.list` under `panes.read`, reads again when `panes.changed`, and
+//! draws a row per pane, or one of four states: loading, empty, denied, failed.
 //! `logic.rs` decides what to show, this file draws it.
 
 pub mod logic;

@@ -1,5 +1,5 @@
-//! `test/kit.test.js`, for the native tab: the kit as a whole. The Node tests still
-//! run the page, the plugin and the manifest; these are what only the module can say.
+//! The kit as a whole, for the native tab. The Node tests (`test/kit.test.js`) read the plugin,
+//! the manifest and the module; these are what only the tab can say.
 
 use std::collections::BTreeSet;
 

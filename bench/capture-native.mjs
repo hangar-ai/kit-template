@@ -11,8 +11,7 @@
 // What it cannot show: the pretend Hangar answers `panes.list` with three panes and grants every
 // permission, whatever the tab asks. So this photographs the list only, at the preview's width of
 // 360 points. The empty, loading, denied and failed states are drawn from the same code and are read
-// in the tests (`cargo test --manifest-path native/Cargo.toml`); bench/capture.mjs photographs the
-// page's, which is what Hangar 1.x opens.
+// in the tests (`cargo test --manifest-path native/Cargo.toml`).
 
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
@@ -25,7 +24,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const kit = path.join(here, "..");
 const out = path.join(here, "captures");
 const manifest = JSON.parse(fs.readFileSync(path.join(kit, "hangar-kit.json"), "utf8"));
-const module = path.join(kit, manifest.tabs[0].native);
+const module = path.join(kit, manifest.tabs[0].entry);
 const SCHEMES = ["dark", "light"];
 const LOCALES = ["en", "fr"];
 

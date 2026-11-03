@@ -1,4 +1,4 @@
-//! What the tab shows, with no page around it: `tabs/panes/logic.js`, ported.
+//! What the tab shows, as plain data with no widget around it.
 //!
 //! Plain functions of what Hangar answered, so they are tested without a harness
 //! (`tests/logic.rs`) and read without knowing the SDK's widgets. `lib.rs` draws them.
