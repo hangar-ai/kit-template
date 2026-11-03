@@ -17,6 +17,7 @@
       "id": "panes",
       "title": "Panes",
       "entry": "tabs/panes/index.html",
+      "native": "tabs/panes.wasm",
       "icon": "icon.svg",
       "permissions": ["panes.read"]
     }
