@@ -1,3 +1,4 @@
 .hangar-ui/
 node_modules/
 bench/captures/
+native/target/

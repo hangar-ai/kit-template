@@ -1,0 +1,7 @@
+# The same compiler for everyone, so the same source builds the same module on your machine and in CI
+# (scripts/build-native.sh --check). `rustup toolchain install` reads this file; to move on, change the
+# version, run scripts/build-native.sh and commit both.
+[toolchain]
+channel = "1.99.1"
+profile = "minimal"
+targets = ["wasm32-unknown-unknown"]
