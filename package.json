@@ -3,5 +3,5 @@
   "private": true,
   "description": "Not a package to install: this file lets `node --test .` find the tests on every Node version.",
   "main": "run-tests.js",
-  "scripts": { "test": "node --test", "capture": "node bench/capture.mjs" }
+  "scripts": { "test": "node --test", "capture": "node bench/capture.mjs", "capture:native": "node bench/capture-native.mjs" }
 }
