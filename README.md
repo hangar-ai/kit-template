@@ -1,18 +1,19 @@
 # Kit template
 
-The smallest honest kit for [Hangar.AI](https://hangar.simnjs.fr), and the way to start a native one: a
-tab written in Rust and compiled to WebAssembly, a skill, tests and a capture bench. It works as it is:
-its tab lists the workspace's panes. Click **Use this template**, and replace what it does.
+The smallest honest kit for [Hangar.AI](https://hangar.simnjs.fr), and the way to start one: a
+native tab written in Rust and compiled to WebAssembly, a skill, tests and a capture bench. It needs
+Hangar 2.0 or later. It works as it is: its tab lists the workspace's panes. Click **Use this
+template**, and replace what it does.
 
 A native tab describes its page as widgets, and Hangar draws them itself, in the person's theme: no
-browser engine runs for it. It calls the same methods under the same permissions as a page does.
+browser engine runs for it, and the kit has no HTML page.
 [The contract](https://github.com/hangar-ai/hangar/blob/feat/native-rust/docs/native/kits-native.md) is
 in Hangar's repository, on the SDK's branch until it is released; this page is how to start.
 
 ## What is here
 
 ```
-hangar-kit.json         the kit: id, tab, permissions, its card for the gallery
+hangar-kit.json         the kit: schema 2, id, tab, permissions, its card for the gallery
 .claude-plugin/         the Claude Code plugin; skills/ is what it brings
 native/                 the tab, in Rust
   Cargo.toml            a cdylib (the module) and an rlib (its tests), on hangar-kit-sdk
@@ -20,19 +21,16 @@ native/                 the tab, in Rust
   src/lib.rs            the Kit: state, messages, init, update, view, subscriptions, its strings
   src/logic.rs          what it shows, as plain functions of what Hangar answered
   tests/                logic.rs, tab.rs on the SDK's harness, kit.rs (its calls against the manifest)
-tabs/panes.wasm         the module: built, committed, and what the native Hangar runs
-tabs/panes/             the same tab as a page, which is what Hangar 1.x opens
+tabs/panes.wasm         the module: built, committed, and what Hangar runs (the tab's `entry`)
 scripts/build-native.sh builds the module; --check fails when the committed one is stale
 rust-toolchain.toml     the compiler, so that the same source builds the same module everywhere
-test/                   Node tests: the kit, the module, the page
-bench/                  the tab photographed: capture-native.mjs, and the page's capture.mjs
+test/                   Node tests: the plugin, the manifest and the module
+bench/                  the tab photographed: capture-native.mjs
 ```
 
-**Both kinds of tab, in one manifest.** It stays at `"schema": 1`, keeps the page as `entry` and names
-the module in `native`. Hangar 1.x ignores the field and opens the page; the native Hangar opens the
-module, and the page only when the module cannot load (the tab's bar says so). A kit that needs
-nothing older than the native Hangar can drop the page and its tests and photographs, and name the
-module as its `entry` under `"schema": 2`: the contract says how.
+**Schema 2, native only.** The manifest says `"schema": 2` and `"hangar": ">=2.0.0"`, and each tab's
+`entry` is its module, `tabs/<tab>.wasm`. There is no `native` field and no HTML page to fall back
+to: a Hangar older than 2.0 says the kit needs a newer Hangar, and does not open it.
 
 ## Make it yours
 
@@ -45,7 +43,7 @@ module as its `entry` under `"schema": 2`: the contract says how.
    `lib.rs`. `kit.rs` fails when the tab asks for what the manifest does not declare, or declares
    what it never uses.
 3. **Drop what you do not need.** No skill? Delete `skills/` and `.claude-plugin/`: the kit is just a
-   tab. Nothing older than the native Hangar? See above.
+   tab.
 
 ## Write the tab
 
@@ -92,7 +90,7 @@ fetches the SDK from GitHub (`Cargo.lock` pins the commit).
 
 ```sh
 cargo test --manifest-path native/Cargo.toml    # the tab, on the host: no Hangar, no WebAssembly
-node --test                                     # the kit, the module and the page: Node alone
+node --test                                     # the plugin, the manifest and the module: Node alone
 ```
 
 `Harness` runs the tab's own runtime. Start it with what Hangar would give it, answer its calls by
@@ -111,18 +109,18 @@ Beside `reply_to`, `reply` and `event`: `press`, `type_into`, `choose`, `toggle`
 `.grant([…])`, `.param(…)`, `.locale("fr")`, `.utc_offset(…)`. Write a case for each state, for what
 a refusal does, and for what the tab sends.
 
-The Node tests cover what only a file can say: the plugin, the manifest and its `native` field, the
-module's imports, and the page. Without Hangar's files, the two tests that compare against them skip
-and say so. `node test/hangar-ui.js --get` fetches them, into a folder git ignores.
+The Node tests cover what only a file can say: the plugin, the manifest (schema 2, an `entry` that is
+a `.wasm` file inside the kit) and the module's imports and exports.
 
-CI calls [kit-check](https://github.com/hangar-ai/.github/blob/main/.github/workflows/kit-check.yml): it reads
-the manifest, runs your tests, and refuses personal data, a colour of the tab's own, and anything a page loads
-from outside the kit. Its manifest check restates Hangar's rules, and Hangar reads the manifest again itself.
-A second job runs `cargo test` and `scripts/build-native.sh --check`.
+CI calls [kit-check](https://github.com/hangar-ai/.github/blob/rust-rewrite/.github/workflows/kit-check.yml):
+it reads the manifest (schema 2) and checks that each module is WebAssembly importing only
+`hangar.log` and `hangar.now`, runs `node --test`, and refuses personal data. Its manifest check
+restates Hangar's rules, and Hangar reads the manifest again itself. A second job runs `cargo test`
+and `scripts/build-native.sh --check`.
 
 ## Try it in Hangar
 
-In the native Hangar, Settings › Kits, link this folder. A linked folder is read live: build, then
+In Hangar 2.0 or later, Settings › Kits, link this folder. A linked folder is read live: build, then
 reload the tab from its bar, and see. Without the app, the preview window of Hangar's kit host runs
 the module in a pretend Hangar (two panes, a data folder in memory, every permission granted):
 
@@ -138,8 +136,7 @@ HANGAR_DIR=~/dev/hangar node bench/capture-native.mjs
 
 photographs it there, in light and dark, in English and French, into `bench/captures/`. The pretend
 Hangar always answers with three panes, so it shows the list only: the empty, denied and failed
-states are read in the tests. `node bench/capture.mjs` photographs the page's states, at 320 px and
-wide, for Hangar 1.x. Look at them before you publish.
+states are read in the tests. Look at them before you publish.
 
 ## Publish it
 

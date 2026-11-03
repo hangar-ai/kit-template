@@ -1,5 +1,5 @@
 #!/bin/sh
-# Builds the tab to WebAssembly and puts it where the manifest's `native` says.
+# Builds the tab to WebAssembly and puts it where the manifest's `entry` says.
 #
 #   scripts/build-native.sh           builds, and writes tabs/panes.wasm
 #   scripts/build-native.sh --check   builds, and fails when tabs/panes.wasm is not what the source builds
