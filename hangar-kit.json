@@ -2,7 +2,7 @@
   "schema": 2,
   "id": "my-kit",
   "name": "My kit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A tab listing the workspace's panes and what each is doing, and a skill telling agents about it.",
   "author": "You",
   "homepage": "https://github.com/hangar-ai/kit-template",
